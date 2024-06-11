@@ -5,6 +5,8 @@ const { KEY_NAME } = require('../config/dbConfig');
 const Employe = require('../models/employeModel');
 const Manager = require('../models/managerModel');
 const nodemailer = require('nodemailer');
+const Recruit = require('../models/recruitModel');
+const User = require('../models/userModel');
 
 
 const loginemploye = async (req, res) => {
@@ -56,7 +58,7 @@ const loginemploye = async (req, res) => {
 
 
 
-const logincompany = async (req, res) => {
+const loginmanager = async (req, res) => {
     try {
         console.log(req.body);
         let info = {
@@ -96,6 +98,103 @@ const logincompany = async (req, res) => {
         });
     }
 };
+
+
+
+
+
+
+const loginrecruit = async (req, res) => {
+    try {
+        console.log(req.body);
+        let info = {
+            email: req.body.email,
+            password: req.body.password,
+        };
+
+        const userData = await Recruit.findOne({ email: info.email });
+
+        if (userData) {
+
+            if (info.password === userData?.password) {
+                // Generate JWT token for authentication
+                const token = sign({ id: userData._id, phone: userData.phone }, KEY_NAME, { expiresIn: '1h' });
+
+                res.status(200).json({
+                    status: 'ok',
+                    message: "Successfully logged in",
+                    token: token,
+                    data: userData,
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Wrong Password',
+                });
+            }
+        } else {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Email not found',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+};
+
+
+
+
+
+const loginuser = async (req, res) => {
+    try {
+        console.log(req.body);
+        let info = {
+            email: req.body.email,
+            password: req.body.password,
+        };
+
+        const userData = await User.findOne({ email: info.email });
+
+        if (userData) {
+
+            if (info.password === userData?.password) {
+                // Generate JWT token for authentication
+                const token = sign({ id: userData._id, phone: userData.phone }, KEY_NAME, { expiresIn: '1h' });
+
+                res.status(200).json({
+                    status: 'ok',
+                    message: "Successfully logged in",
+                    token: token,
+                    data: userData,
+                });
+            } else {
+                res.status(200).json({
+                    status: 'fail',
+                    message: 'Wrong Password',
+                });
+            }
+        } else {
+            res.status(200).json({
+                status: 'fail',
+                message: 'Email not found',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
+    }
+};
+
+
+
+
+
+
 
 
 const transporter = nodemailer.createTransport({
@@ -247,7 +346,9 @@ const verifyotpemploye = async (req, res) => {
 
 module.exports = {
     loginemploye,
-    logincompany,
+    loginmanager,
+    loginrecruit,
+    loginuser,
     verifyemploye,
     updateemploye,
     verifyotpemploye

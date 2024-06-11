@@ -60,8 +60,12 @@ connectMongoDB()
 
 // routers
 const notificationRouter = require('./routes/notificationRoutes.js')
+const recruitRouter = require('./routes/recruitRoutes.js')
 const employeRouter = require('./routes/employeRoutes.js')
 const managerRouter = require('./routes/managerRoutes.js')
+const postJobRouter = require('./routes/postJobRoutes.js')
+const applyJobRouter = require('./routes/applyJobRoutes.js')
+const userRouter = require('./routes/userRoutes.js')
 const loginRouter = require('./routes/loginRoutes.js');
 const { url } = require('./config/dbConfig.js');
 
@@ -75,6 +79,10 @@ const { url } = require('./config/dbConfig.js');
 
 app.use('/job/notification', notificationRouter)
 app.use('/job/manager', managerRouter)
+app.use('/job/postJob', postJobRouter)
+app.use('/job/applyJob', applyJobRouter)
+app.use('/job/recruit', recruitRouter)
+app.use('/job/user', userRouter)
 app.use('/job/employe', employeRouter)
 app.use('/job/login',loginRouter)
 
