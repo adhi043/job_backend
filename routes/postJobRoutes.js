@@ -5,6 +5,7 @@ const { upload } = require('../upload/UploadFile')
 const router=require('express').Router()
 
 router.get('/get',postJobController.getpostJobs)
+router.get('/getRecruit/:recruitId',postJobController.getpostJobsbyrecruit)
 router.post('/create',postJobController.addpostJob)
 
 router.get('/get/:id',postJobController.getpostJobById)
