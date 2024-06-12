@@ -66,7 +66,8 @@ const recruitSchema = new mongoose.Schema({
         allowNull: true,
     },
     block: {
-        type: Boolean,
+        type: String,
+        default:'pending',
         allowNull: true,
     },
 },{timestamps:true});
