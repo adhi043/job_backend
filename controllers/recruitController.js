@@ -8,11 +8,11 @@ const nodemailer = require('nodemailer');
 
 
 const transporter = nodemailer.createTransport({
-    host: 'mail.proshelf.net', // e.g., 'gmail', 'outlook'
+    host: 'gmail', // e.g., 'gmail', 'outlook'
     port:465,
     auth: {
-        user: 'otp@proshelf.net', // your email address
-        pass: 'i-4)rkhHwz@X' // your email password
+        user: 'cpearnings@gmail.com', // your email address
+        pass: 'txdvqubmdpostjrb' // your email password
     }
 });
 
@@ -61,7 +61,7 @@ const addrecruit = async (req, res) => {
             
 
             const mailOptions = {
-                from: 'ProShelf <otp@proshelf.net>', // sender address
+                from: 'HireOn <cpearnings@gmail.com>', // sender address
                 to: info.email, // comma-separated list of recipients
                 subject: 'Request for Approval of Company Profile',
                 html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
@@ -218,7 +218,7 @@ const approverecruit = async (req, res) => {
 
                 
             const mailOptions = {
-                from: 'ProShelf <otp@proshelf.net>', // sender address
+                from: 'HireOn <cpearnings@gmail.com>', // sender address
                 to: getRecruit.email, // comma-separated list of recipients
                 subject: 'Company Profile Successfully Approved',
                 html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
