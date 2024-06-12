@@ -114,8 +114,8 @@ const updateuser = async (req, res) => {
     try {
         let id = req.params.id;
         let getImage = await User.findById(id);
-        const cvImage = req.files.cvImage === undefined ? getImage.cvImage : mainUrl + req.files.cvImage[0].filename;
-        const profileImage = req.files.profileImage === undefined ? getImage.profileImage : mainUrl + req.files.profileImage[0].filename;
+        const cvImage = req.files?.cvImage === undefined ? getImage?.cvImage : mainUrl + req.files?.cvImage[0].filename;
+        const profileImage = req.files?.profileImage === undefined ? getImage?.profileImage : mainUrl + req.files?.profileImage[0].filename;
 
 
         if(getImage?.phone===req.body.phone && req.body.phone){

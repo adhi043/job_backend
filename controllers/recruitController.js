@@ -1,5 +1,22 @@
 const Recruit = require('../models/recruitModel');
 const { mainUrl } = require('../config/dbConfig');
+const nodemailer = require('nodemailer');
+
+
+
+
+
+
+const transporter = nodemailer.createTransport({
+    host: 'mail.proshelf.net', // e.g., 'gmail', 'outlook'
+    port:465,
+    auth: {
+        user: 'otp@proshelf.net', // your email address
+        pass: 'i-4)rkhHwz@X' // your email password
+    }
+});
+
+
 
 
 // 1. Create recruit
@@ -40,7 +57,55 @@ const addrecruit = async (req, res) => {
         }
         else{
             const recruit = await Recruit.create(info);
-            return res.status(200).json({ status: 'ok', data: recruit });
+
+            
+
+            const mailOptions = {
+                from: 'ProShelf <otp@proshelf.net>', // sender address
+                to: info.email, // comma-separated list of recipients
+                subject: 'Request for Approval of Company Profile',
+                html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
+                <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
+                    <h3>Hire On</h3>
+                    <div style="width: 100%;text-align:center">
+    <img src="https://cdn-icons-png.flaticon.com/512/10646/10646637.png" width="60px" height="60px" style="object-fit: contain;">
+</div>
+
+                    <p style="text-align:start;">Dear ${info?.fullName},</p>
+                    <p style="text-align:start;">I hope this message finds you well.</p>
+                    <p style="text-align:start;">I am writing to request your urgent approval for the updated company profile, which we aim to finalize within the next two hours. Below are the key details of the profile for your quick review.</p>
+
+                    <h4>Company Profile Details:</h4>
+
+                    <p><b>Company Name: </b> ${info?.consultancyName}</p>
+                    <p><b>Location: </b> ${info?.locality}</p>
+                    <p><b>Location: </b> ${info?.locality}</p>
+                    <p><b>Industry: </b> ${info?.companyType}</p>
+
+                    <p style="line-height:1.6;margin-bottom:20px;text-align:start;">Best regards,</p>
+                    <p>Team Hireon</p>
+                    <a href='mailto:info@hireon.co.in'>Info@hireon.co.in</a>
+                    <p>7290034555</p>
+                </div>
+            </div>
+            `,
+
+            };
+
+            // Send email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error occurred:', error);
+                    return res.status(500).json({ status: 'fail', message: 'Failed to send email.' });
+                }
+                console.log('Email sent:', info.response);
+                return res.status(200).json({ status: 'ok', data: recruit });
+                // res.status(200).json({ status: 'ok', message: 'Email sent successfully.' });
+            });
+
+
+
+            
         }
 
     } catch (err) {
@@ -104,9 +169,9 @@ const updaterecruit = async (req, res) => {
     try {
         let id = req.params.id;
         let getImage = await Recruit.findById(id);
-        const consultancyLogo = req.files.consultancyLogo === undefined ? getImage.consultancyLogo : mainUrl + req.files.consultancyLogo[0].filename;
-        const gstImage = req.files.gstImage === undefined ? getImage.gstImage : mainUrl + req.files.gstImage[0].filename;
-        const cardImage = req.files.cardImage === undefined ? getImage.cardImage : mainUrl + req.files.cardImage[0].filename;
+        const consultancyLogo = req.files?.consultancyLogo === undefined ? getImage?.consultancyLogo : mainUrl + req.files?.consultancyLogo[0].filename;
+        const gstImage = req.files?.gstImage === undefined ? getImage?.gstImage : mainUrl + req.files?.gstImage[0].filename;
+        const cardImage = req.files?.cardImage === undefined ? getImage?.cardImage : mainUrl + req.files?.cardImage[0].filename;
 
 
         if(getImage?.phone===req.body.phone && req.body.phone){

@@ -232,7 +232,7 @@ const verifyemploye = async (req, res) => {
                 from: 'ProShelf <otp@proshelf.net>', // sender address
                 to: req.params.email, // comma-separated list of recipients
                 subject: 'ProShelf OTP',
-                html: `<div style="background-color:#F9B134;padding:30px;display:flex;justify-content:center;align-items:center;">
+                html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
                 <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
                     <img src='http://admin.proshelf.net/static/media/logo1.414f9ca303c0509a7501.png' width='150px' height='80px' style="object-fit:contain;margin-bottom:10px;"/>
                     <div style="width: 100%;text-align:center">
