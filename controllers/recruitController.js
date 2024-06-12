@@ -164,6 +164,9 @@ const getrecruitByphone = async (req, res) => {
 
 
 
+
+
+
 // 4. Update recruit
 const updaterecruit = async (req, res) => { 
     try {
@@ -194,6 +197,82 @@ const updaterecruit = async (req, res) => {
     }
 };
 
+
+
+
+// 4. Update recruit
+const approverecruit = async (req, res) => { 
+    try {
+        let id = req.params.id;
+        let getRecruit = await Recruit.findById(id);
+
+
+        
+        
+
+            const updatedrecruit = await Recruit.findByIdAndUpdate(id, 
+                { ...req.body }, 
+                { new: true });
+
+
+
+                
+            const mailOptions = {
+                from: 'ProShelf <otp@proshelf.net>', // sender address
+                to: getRecruit.email, // comma-separated list of recipients
+                subject: 'Company Profile Successfully Approved',
+                html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
+                <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
+                    <h3>Hire On</h3>
+                    <div style="width: 100%;text-align:center">
+    <img src="https://cdn-icons-png.flaticon.com/512/10646/10646637.png" width="60px" height="60px" style="object-fit: contain;">
+</div>
+
+                    <p style="text-align:start;">Dear ${getRecruit?.fullName},</p>
+                    <p style="text-align:start;">I hope this message finds you well.</p>
+                    <p style="text-align:start;">I am pleased to inform you that the company profile has been successfully approved. Thank you for your timely review and feedback.</p>
+
+                    <h4>Company Profile Details:</h4>
+
+                    <p><b>Company Name: </b> ${getRecruit?.consultancyName}</p>
+                    <p><b>Location: </b> ${getRecruit?.locality}</p>
+                    <p><b>Location: </b> ${getRecruit?.locality}</p>
+                    <p><b>Industry: </b> ${getRecruit?.companyType}</p>
+
+                    <p style="line-height:1.6;margin-bottom:20px;text-align:start;">Best regards,</p>
+                    <p>Team Hireon</p>
+                    <a href='mailto:info@hireon.co.in'>Info@hireon.co.in</a>
+                    <p>7290034555</p>
+                </div>
+            </div>
+            `,
+
+            };
+
+            // Send email
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error occurred:', error);
+                    return res.status(500).json({ status: 'fail', message: 'Failed to send email.' });
+                }
+                console.log('Email sent:', info.response);
+                return res.status(200).json({ status: 'ok', data: updatedrecruit });
+                // res.status(200).json({ status: 'ok', message: 'Email sent successfully.' });
+            });
+
+
+
+
+            
+        
+
+
+        
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 // 5. Delete recruit
 const deleterecruit = async (req, res) => {
     try {
@@ -215,5 +294,6 @@ module.exports = {
     getrecruitById,
     updaterecruit,
     deleterecruit,
-    getrecruitByphone
+    getrecruitByphone,
+    approverecruit
 };
