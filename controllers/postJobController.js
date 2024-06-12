@@ -51,7 +51,7 @@ const getpostJobs = async (req, res) => {
 // 2. Get all postJobs
 const getpostJobsbyrecruit = async (req, res) => {
     try {
-        const postJobs = await PostJob.find({recruitId:req.params.recruitId});
+        const postJobs = await PostJob.find({recruitId:req.params.recruitId}).populate(['recruitId']);
         return res.status(200).json({ status: 'ok', data: postJobs });
     } catch (err) {
         res.status(500).json({ error: err.message });
