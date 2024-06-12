@@ -53,6 +53,10 @@ const postJobSchema = new mongoose.Schema({
         type: String,
         allowNull: true,
     },
+    block: {
+        type: Boolean,
+        allowNull: true,
+    },
     
 },{timestamps:true});
 
