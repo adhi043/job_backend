@@ -112,7 +112,7 @@ const loginrecruit = async (req, res) => {
             password: req.body.password,
         };
 
-        const userData = await Recruit.findOne({ email: info.email });
+        const userData = await Recruit.findOne({ email: info.email,block:false });
 
         if (userData) {
 

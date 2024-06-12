@@ -25,6 +25,7 @@ const addrecruit = async (req, res) => {
             consultancyAbout: req.body.consultancyAbout,
             consultancySize: req.body.consultancySize,
             workingAs: req.body.workingAs,
+            block: true,
         };
 
 

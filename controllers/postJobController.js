@@ -23,7 +23,7 @@ const addpostJob = async (req, res) => {
             jobTitle: req.body.jobTitle,
             jobIndustries: req.body.jobIndustries,
             jobDescription: req.body.jobDescription,
-            block: false,
+            block: true,
         };
 
             
