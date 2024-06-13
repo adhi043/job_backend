@@ -79,7 +79,6 @@ const addrecruit = async (req, res) => {
 
                     <p><b>Company Name: </b> ${info?.consultancyName}</p>
                     <p><b>Location: </b> ${info?.locality}</p>
-                    <p><b>Location: </b> ${info?.locality}</p>
                     <p><b>Industry: </b> ${info?.companyType}</p>
 
                     <p style="line-height:1.6;margin-bottom:20px;text-align:start;">Best regards,</p>
@@ -235,7 +234,6 @@ const approverecruit = async (req, res) => {
                     <h4>Company Profile Details:</h4>
 
                     <p><b>Company Name: </b> ${getRecruit?.consultancyName}</p>
-                    <p><b>Location: </b> ${getRecruit?.locality}</p>
                     <p><b>Location: </b> ${getRecruit?.locality}</p>
                     <p><b>Industry: </b> ${getRecruit?.companyType}</p>
 
