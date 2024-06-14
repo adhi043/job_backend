@@ -58,6 +58,17 @@ const getpostJobsbyrecruit = async (req, res) => {
 };
 
 
+// 2. Get all postJobs
+const getapprovepostJobsbyuser = async (req, res) => {
+    try {
+        const postJobs = await PostJob.find({block:'accepted'}).populate(['recruitId']);
+        return res.status(200).json({ status: 'ok', data: postJobs });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
 
 // 3. Get postJob by id
 const getpostJobById = async (req, res) => {
@@ -115,5 +126,6 @@ module.exports = {
     getpostJobById,
     updatepostJob,
     deletepostJob,
+    getapprovepostJobsbyuser,
     getpostJobsbyrecruit
 };

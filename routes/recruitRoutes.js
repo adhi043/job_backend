@@ -8,7 +8,7 @@ router.get('/get',recruitController.getrecruits)
 router.post('/create',upload.fields([{name:'consultancyLogo',maxCount:1},{name:'gstImage',maxCount:1},{name:'cardImage',maxCount:1}]),recruitController.addrecruit)
 
 router.get('/get/:id',recruitController.getrecruitById)
-router.get('/approve/:id',recruitController.approverecruit)
+router.put('/approve/:id',recruitController.approverecruit)
 router.get('/getPhone/:phone',recruitController.getrecruitByphone)
 router.put('/update/:id',upload.fields([{name:'consultancyLogo',maxCount:1},{name:'gstImage',maxCount:1},{name:'cardImage',maxCount:1}]),recruitController.updaterecruit)
 router.delete('/delete/:id',recruitController.deleterecruit)
