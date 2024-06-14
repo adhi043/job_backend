@@ -105,6 +105,11 @@ const userSchema = new mongoose.Schema({
         type: Array,
         allowNull: true,
     },
+    block: {
+        type: String,
+        default:'pending',
+        allowNull: true,
+    },
 },{timestamps:true});
 
 

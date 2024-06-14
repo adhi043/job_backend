@@ -9,6 +9,7 @@ router.post('/create',upload.fields([{name:'cvImage',maxCount:1},{name:'profileI
 
 router.get('/get/:id',userController.getuserById)
 router.get('/getPhone/:phone',userController.getuserByphone)
+router.put('/approve/:id',userController.approveuser)
 router.put('/update/:id',upload.fields([{name:'cvImage',maxCount:1},{name:'profileImage',maxCount:1}]),userController.updateuser)
 router.delete('/delete/:id',userController.deleteuser)
 
