@@ -62,7 +62,7 @@ const addrecruit = async (req, res) => {
 
             const mailOptions = {
                 from: 'HireOn <cpearnings@gmail.com>', // sender address
-                to: info.email, // comma-separated list of recipients
+                to: info.consultancyEmail, // comma-separated list of recipients
                 subject: 'Request for Approval of Company Profile',
                 html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
                 <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
@@ -218,7 +218,7 @@ const approverecruit = async (req, res) => {
                 
             const mailOptions = {
                 from: 'HireOn <cpearnings@gmail.com>', // sender address
-                to: getRecruit.email, // comma-separated list of recipients
+                to: getRecruit.consultancyEmail, // comma-separated list of recipients
                 subject: 'Company Profile Successfully Approved',
                 html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
                 <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
