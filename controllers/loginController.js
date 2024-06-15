@@ -7,6 +7,7 @@ const Manager = require('../models/managerModel');
 const nodemailer = require('nodemailer');
 const Recruit = require('../models/recruitModel');
 const User = require('../models/userModel');
+const SendOTP = require('../models/sendOTPModel');
 
 
 const loginemploye = async (req, res) => {
@@ -208,23 +209,29 @@ const transporter = nodemailer.createTransport({
 
 
 
-const verifyemploye = async (req, res) => {
+const sendotpRecruit = async (req, res) => {
 
     try {
 
+        
 
-        const userData = await Employe.findOne({ email: req.params.email });
+        const userData = await SendOTP.findOne({ email: req.body.email,verify:true });
 
         console.log(userData);
 
+
+
         if (userData) {
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Email already exist',
+            });
+        }
+        else {
 
             var randomCode = (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000).toString();
 
 
-            const updatedemploye = await Employe.findByIdAndUpdate(userData?._id,
-                { ...req.body, otp: randomCode, },
-                { new: true });
 
 
             // Setup email data
@@ -234,7 +241,7 @@ const verifyemploye = async (req, res) => {
                 subject: 'ProShelf OTP',
                 html: `<div style="background-color:blue;padding:30px;display:flex;justify-content:center;align-items:center;">
                 <div style="background-color:white;border-radius:10px;padding:30px;width:100%">
-                    <img src='http://admin.proshelf.net/static/media/logo1.414f9ca303c0509a7501.png' width='150px' height='80px' style="object-fit:contain;margin-bottom:10px;"/>
+                    <h3>Hire On</h3>
                     <div style="width: 100%;text-align:center">
     <img src="https://cdn-icons-png.flaticon.com/512/10646/10646637.png" width="60px" height="60px" style="object-fit: contain;">
 </div>
@@ -252,22 +259,21 @@ const verifyemploye = async (req, res) => {
             };
 
             // Send email
-            transporter.sendMail(mailOptions, (error, info) => {
+            transporter.sendMail(mailOptions, async(error, info) => {
                 if (error) {
                     console.error('Error occurred:', error);
                     return res.status(500).json({ status: 'fail', message: 'Failed to send email.' });
                 }
                 console.log('Email sent:', info.response);
+
+
+                const createotp = await SendOTP.create({email:req.body.email,otp:randomCode,verify:false});
+
                 res.status(200).json({ status: 'ok', message: 'OTP sent to mail successfully.' });
             });
 
 
-        } else {
-            return res.status(200).json({
-                status: 'fail',
-                message: 'Employe not found',
-            });
-        }
+        } 
     } catch (err) {
         res.status(500).json({
             error: err.message
@@ -311,17 +317,21 @@ console.log(req.params.email);
 
 
 
-const verifyotpemploye = async (req, res) => {
+const verifyotprecruit = async (req, res) => {
 
     try {
 
 
-        const userData = await Employe.findOne({ email: req.params.email, otp: req.params.otp });
+        const userData = await SendOTP.findOne({ email: req.params.email, otp: req.params.otp });
 
 
         if (userData) {
 
-            res.status(200).json({ status: 'ok', message: 'OTP verified successfully.' });
+            const updatedrecruit = await SendOTP.findByIdAndUpdate(userData?._id,
+                { verify: true, },
+                { new: true });
+
+            res.status(200).json({ status: 'ok', message: 'OTP verified successfully.',updatedemploye: updatedrecruit });
 
         } else {
             return res.status(200).json({
@@ -349,7 +359,7 @@ module.exports = {
     loginmanager,
     loginrecruit,
     loginuser,
-    verifyemploye,
+    sendotpRecruit,
     updateemploye,
-    verifyotpemploye
+    verifyotprecruit
 };
